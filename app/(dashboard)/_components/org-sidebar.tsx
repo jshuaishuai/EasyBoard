@@ -32,14 +32,18 @@ const OrgSidebar = () => {
         appearance={{
           elements: {
             rootBox: {
-              width: '100%',
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
             },
             organizationSwitcherTrigger: {
-              padding: '6px',
-              width: '100%',
-              borderRadius: '8px',
-              border: '1px solid #E5E7EB',
-              justifyContent: 'space-between',
+              padding: "10px",
+              width: "100%",
+              borderRadius: "8px",
+              border: "1px solid #E5E7EB",
+              justifyContent: "space-between",
+              backgroundColor: "white",
             }
           }
         }}
