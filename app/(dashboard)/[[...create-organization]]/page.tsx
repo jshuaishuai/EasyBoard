@@ -1,7 +1,26 @@
-import Image from "next/image";
+"use client";
+import { useOrganization } from '@clerk/nextjs';
+import EmptyOrg from '../_components/empty-org';
+import BoardList from '../_components/board-list';
 
-export default function Home() {
+interface DashboardPageProps {
+  searchParams: {
+    search?: string;
+    favorites?: string;
+  }
+};
+
+export default function DashboardPage({
+  searchParams
+}: DashboardPageProps) {
+
+  const { organization } = useOrganization();
   return (
-    <div className="flex flex-col gap-y-4 text-yellow-300">111</div>
+    <div className="h-[calc(100%-80px)] p-6">
+      {
+        !organization ? (<EmptyOrg />) : (<BoardList query={searchParams} orgId={organization.id} />)
+      }
+
+    </div>
   )
 }

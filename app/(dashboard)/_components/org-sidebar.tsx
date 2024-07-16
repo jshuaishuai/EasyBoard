@@ -51,18 +51,18 @@ const OrgSidebar = () => {
 
       <div className="space-y-1 w-full">
         <Button
-          variant={favorites ? "ghost" : "default"}
+          variant={favorites ? "ghost" : "secondary"}
           asChild
           size="lg"
           className="font-normal justify-start px-2 w-full"
         >
-          <Link href={{ pathname: '/' }}>
+          <Link href="/">
             <LayoutDashboard className="h-4 w-4 mr-2" /> Team board
           </Link>
         </Button>
 
         <Button
-          variant={favorites ? "default" : "ghost"}
+          variant={favorites ? "secondary" : "ghost"}
           asChild
           size="lg"
           className="font-normal justify-start px-2 w-full"
