@@ -26,13 +26,7 @@ const NewButton = () => {
             </DialogTrigger>
 
             <DialogContent className="p-0 bg-transparent border-none max-w-[480px]">
-                <DialogHeader>
-                    <DialogTitle />
-                    <DialogDescription />
-                </DialogHeader>
                 <CreateOrganization />
-                <DialogClose asChild>
-                </DialogClose>
             </DialogContent>
         </Dialog>
     );
