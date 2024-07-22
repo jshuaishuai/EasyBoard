@@ -1,3 +1,5 @@
+"use client";
+
 import EmptyBoards from "./empty-boards";
 import EmptyFavorites from "./empty-favorites";
 import EmptySearch from "./empty-search";
@@ -20,7 +22,6 @@ const BoardList = ({ orgId, query }: BoardListProps) => {
         orgId
     });
 
-    console.log('%c [ data ]-18', 'font-size:13px; background:pink; color:#bf2c9f;', data)
 
     if (data === undefined) {
         return <div>Loading...</div>

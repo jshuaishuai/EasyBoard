@@ -45,9 +45,51 @@ export const create = mutation({
 export const get = query({
     args: { id: v.id("boards") },
     handler: async (ctx, args) => {
-        console.log('%c [ args ]-48', 'font-size:13px; background:pink; color:#bf2c9f;', args)
         const board = ctx.db.get(args.id);
 
         return board;
     },
 });
+
+
+export const remove = mutation({
+    args: {
+        id: v.id("boards"),
+    },
+    handler: async (ctx, args) => {
+        const identity = ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new Error("unauthorized");
+        }
+
+        ctx.db.delete(args.id)
+    }
+})
+
+
+export const update = mutation({
+    args: {
+        title: v.string(),
+        id: v.id("boards"),
+    },
+    handler: async (ctx, args) => {
+        const identity = ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new Error("unauthorized");
+        }
+        const title = args.title.trim();
+
+        if (!title) {
+            throw new Error("标题不能为空");
+        }
+        if (title.length > 60) {
+            throw new Error("标题不能超过60个字符");
+        }
+
+        const board = await ctx.db.patch(args.id, {
+            title
+        })
+
+        return board;
+    }
+})
