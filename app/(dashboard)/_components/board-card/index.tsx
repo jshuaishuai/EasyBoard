@@ -2,12 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Overlay from "./overlay";
 import { formatDistanceToNow } from 'date-fns';
 import { useAuth } from "@clerk/nextjs";
-import Footer from "./footer";
-import Actions from "@/components/actions";
 import { MoreHorizontal } from "lucide-react";
+
+import { useApiMutation } from '@/hooks/use-api-mutation';
+import { api } from '@/convex/_generated/api';
+import Overlay from "./overlay";
+import Actions from "@/components/actions";
+import Footer from "./footer";
+import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
+
 interface BoardCardProps {
     id: string;
     title: string;
@@ -36,6 +42,28 @@ const BoardCard = ({
     const createAtLabel = formatDistanceToNow(new Date(createdAt), {
         addSuffix: true
     })
+
+    const { mutate: onFavorite, pengding: pengdingFavorite } = useApiMutation(api.board.favorite);
+    const { mutate: onUnfavorite, pengding: pengdingUnfavorite } = useApiMutation(api.board.unfavorite);
+
+    const toggleFavorite = () => {
+        if (isFavorite) {
+            // 取消收藏
+            onUnfavorite({
+                id
+            }).catch(() => {
+                toast.error('取消收藏失败')
+            })
+        } else {
+            // 收藏
+            onFavorite({
+                id,
+                orgId
+            }).catch(() => {
+                toast.error('收藏失败')
+            })
+        }
+    }
     return (
         <Link href={`/board/${id}`}>
             <div className="group aspect-[100/127] border rounded-lg flex flex-col justify-between overflow-hidden">
@@ -64,6 +92,8 @@ const BoardCard = ({
                     title={title}
                     authorLabel={authorLabel}
                     createAtLabel={createAtLabel}
+                    onClick={toggleFavorite}
+                    disabled={pengdingFavorite || pengdingUnfavorite}
                 />
             </div>
         </Link>
@@ -71,3 +101,13 @@ const BoardCard = ({
 };
 
 export default BoardCard;
+
+
+BoardCard.Skeleton = function BoardCardSkeleton() {
+
+    return (
+        <div className="aspect-[100/127] border rounded-lg overflow-hidden">
+            <Skeleton className="w-full h-full" />
+        </div>
+    )
+}
